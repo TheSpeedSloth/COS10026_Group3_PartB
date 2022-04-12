@@ -1,0 +1,10 @@
+aside{
+    border-left: solid 0.6vw #77f2a1;
+    padding-left: 1vw;
+    
+}
+
+th, td {
+    border: 3px solid #77f2a1;
+    text-align: left;
+  }
