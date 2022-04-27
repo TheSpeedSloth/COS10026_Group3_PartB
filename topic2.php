@@ -11,6 +11,7 @@
     <title>IoT adoption & concerns</title>
 </head>
 <body>
+<?php $active = "topic2";?>
 <?php include 'header.inc';?>
 
     <main>

@@ -11,6 +11,7 @@
   <title>IoT - Internet of Things</title>
 </head>
 <body id=intro>
+  <?php $active = "index";?>
   <?php include 'header.inc';?>
   <br>
   <section id="summary">

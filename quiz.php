@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="styles/style.css" />
   </head>
   <body>
+    <?php $active = "quiz";?>
     <?php include 'header.inc';?>
     <main>
       <h1>IoT Quiz</h1>

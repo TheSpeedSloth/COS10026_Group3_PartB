@@ -16,6 +16,7 @@
   </head>
   <body>
     <main>
+    <?php $active = "topic1";?>
     <?php include 'header.inc';?>
 
       <section>
