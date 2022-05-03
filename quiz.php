@@ -1,3 +1,4 @@
+<?php require("classes/attempts.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,6 +9,11 @@
     <meta name="author" content="Group 3" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles/style.css" />
+    <?php
+      if(isset($POST_["submit"])) {
+        
+      }
+    ?>
   </head>
   <body>
     <?php $active = "quiz";?>
@@ -17,7 +23,7 @@
       <p>Test your knowledge. Can you get them all right?</p>
       <form
         method="post"
-        action="http://mercury.swin.edu.au/it000000/formtest.php"
+        action="markquiz.php"
       >
         <fieldset>
           <legend>Student Details</legend>
@@ -162,7 +168,7 @@
             <input
               type="checkbox"
               id="dubai"
-              name="smartCity1]"
+              name="smartCity1[]"
               value="dubai"
             />
             <label for="dubai">Dubai, United Arab Emirates </label>
@@ -180,7 +186,7 @@
             <input
               type="checkbox"
               id="melbourne"
-              name="category[]"
+              name="smartCity1[]"
               value="melbourne"
             />
             <label for="melbourne">Melbourne, Australia </label>
@@ -189,7 +195,7 @@
             <input
               type="checkbox"
               id="houston"
-              name="category[]"
+              name="smartCity1[]"
               value="houston"
             />
             <label for="houston">Houston, USA </label>
@@ -352,7 +358,7 @@
             </select>
           </p>
         </fieldset>
-        <input type="submit" value="Submit" />
+        <button type="submit" name="submit">Submit</button>
         <input type="reset" value="Reset Form" />
       </form>
     </main>
