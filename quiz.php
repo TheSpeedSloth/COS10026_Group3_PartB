@@ -12,6 +12,7 @@
   <body>
     <?php $active = "quiz";?>
     <?php include 'header.inc';?>
+    <?php include 'header.inc'?>
     <main>
       <h1>IoT Quiz</h1>
       <p>Test your knowledge. Can you get them all right?</p>
