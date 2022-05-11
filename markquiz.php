@@ -39,10 +39,18 @@ if(isset($_POST["submit"])) {
     $answers[] = $iotVul1;
     $answers[] = $iotVul2;
 
-    $attempt = new Attempt($answers);
+    $attempt = new Attempt($answers); // Some OOP don't worry about it
+    $error = $attempt->validate();
+    if(empty($error)) {
+        // Marking code goes here
+    } else {
+        echo $error;
+    }
     echo "<pre>";
     print_r($attempt);
     echo "</pre>";
+} else {
+    header("Location: index.php");
 }
 
 ?>
