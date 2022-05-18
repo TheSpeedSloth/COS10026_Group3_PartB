@@ -9,11 +9,6 @@
     <meta name="author" content="Group 3" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles/style.css" />
-    <?php
-      if(isset($POST_["submit"])) {
-        
-      }
-    ?>
   </head>
   <body>
     <?php $active = "quiz";?>

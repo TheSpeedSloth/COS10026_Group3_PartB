@@ -25,7 +25,7 @@ class Attempt {
         $this->q1          = $this->sanitize($values[3]);
         $this->q2          = $this->sanitize($values[4]);
         $this->q3          = $this->sanitize($values[5]);
-        $this->q4          = $this->sanitize($values[6]);
+        $this->q4          = $values[6];
         $this->q5          = $this->sanitize($values[7]);
         $this->q6          = $this->sanitize($values[8]);
         $this->q7          = $this->sanitize($values[9]);
