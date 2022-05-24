@@ -1,4 +1,3 @@
-<?php require("classes/attempts.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>

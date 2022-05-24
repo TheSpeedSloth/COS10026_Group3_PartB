@@ -47,12 +47,12 @@ if(isset($_POST["submit"])) {
         $error = $attempt->validate();
         if(empty($error)) {
             $score = $attempt->mark();
+            echo "<pre>";
+            print_r($attempt);
+            echo "</pre>";
         } else {
             echo $error;
         }
-        echo "<pre>";
-        print_r($attempt);
-        echo "</pre>";
     } else {
         echo "Database could not be accessed.";
     }
