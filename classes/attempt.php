@@ -87,6 +87,50 @@ class Attempt {
         $value = htmlspecialchars($value);
         return $value;
     }
+
+    public function mark() {
+        $score = 0;
+        if($this->q1 == "vendingMachine") {
+            $score++;
+        }
+        if($this->q2 == "kevin") {
+            $score++;
+        }
+        if($this->q3 == "50billion") {
+            $score++;
+        }
+        if($this->q4 == ["london", "dubai", "melbourne"]) {
+            $score++;
+        }
+        if($this->q5 == "phone") {
+            $score++;
+        }
+        if($this->q6 == "footpaths") {
+            $score++;
+        }
+        if(strtolower($this->q7) == "ruderman foundation") {
+            $score++;
+        }
+        if($this->q8 == "saferRoads") {
+            $score++;
+        }
+        if($this->q9 == "false") {
+            $score++;
+        }
+        if($this->q10 == 2000000) {
+            $score++;
+        }
+        if(strtolower($this->q11) == "moral dilemma") {
+            $score++;
+        }
+        if(strtolower($this->q12) == "breaches of privacy") {
+            $score++;
+        }
+        if($this->q13 == "true") {
+            $score++;
+        }
+        return $score;
+    }
 }
 
 ?>
