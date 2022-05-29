@@ -11,12 +11,12 @@
             } else {
                 $sql_table = "attempts";
 
-                $make = htmlspecialchars($_POST["carmake"]);
-                $model = htmlspecialchars($_POST["carmodel"]);
-                $price = htmlspecialchars($_POST["price"]);
-                $yom = htmlspecialchars($_POST["yom"]);
+                $stuID = htmlspecialchars($_POST["stuID"]);
+                $stuFirstName = htmlspecialchars($_POST["stuFirstName"]);
+                $stuLastName = htmlspecialchars($_POST["stuLastName"]);
+                $quizAttempts = htmlspecialchars($_POST["quizAttempts"]);
 
-                $query = "select * from cars where make like '$make%'";
+                $query = "select * from attempts";
 
                 $result = mysqli_query($conn, $query);
 
@@ -25,15 +25,17 @@
                 } else {
                     echo "<table border=\"1\">\n";
                     echo "<tr>\n"
-                         ."<th scope=\"col\">Make</th>\n"
-                         ."<th scope=\"col\">Model</th>\n"
-                         ."<th scope=\"col\">Price</th>\n"
+                         ."<th scope=\"col\">Student ID</th>\n"
+                         ."<th scope=\"col\">First Name</th>\n"
+                         ."<th scope=\"col\">Last Name</th>\n"
+                         ."<th scope=\"col\">Attempts</th>\n"
                          ."</tr>\n";
                     while ($row = mysqli_fetch_assoc($result)) {
                         echo "<tr>\n";
-                        echo "<td>", $row["make"], "</td>\n";
-                        echo "<td>", $row["model"], "</td>\n";
-                        echo "<td>", $row["price"], "</td>\n";
+                        echo "<td>", $row["stuID"], "</td>\n";
+                        echo "<td>", $row["stuFirstName"], "</td>\n";
+                        echo "<td>", $row["stuLastName"], "</td>\n";
+                        echo "<td>", $row["quizAttempts"], "</td>\n";
                         echo "</tr>\n";
                     }
 
