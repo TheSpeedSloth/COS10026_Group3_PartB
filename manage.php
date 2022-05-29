@@ -16,7 +16,10 @@
                 $stuLastName = htmlspecialchars($_POST["stuLastName"]);
                 $quizAttempts = htmlspecialchars($_POST["quizAttempts"]);
 
-                $query = "select * from attempts";
+                $query1 = "SELECT * from attempts";
+                $query2 = "SELECT * from attempts WHERE stuFirstName LIKE %$stuFirstName% AND stuLastName LIKE %$stuLastName% AND stuID LIKE %$stuID%";
+                $query3 = "SELECT * from attempts WHERE quizAttempt LIKE 1 AND score LIKE 100";
+                $query4 = "SELECT * from attempts";
 
                 $result = mysqli_query($conn, $query);
 
@@ -43,6 +46,7 @@
 
                     mysqli_free_result($result);
                 }
+                
                 mysqli_close($conn);
             }
         ?>
