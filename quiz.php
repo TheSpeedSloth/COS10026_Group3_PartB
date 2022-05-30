@@ -352,7 +352,7 @@
             </select>
           </p>
         </fieldset>
-        <button type="submit" name="submit">Submit</button>
+        <input type="submit" value="submit" />
         <input type="reset" value="Reset Form" />
       </form>
     </main>
