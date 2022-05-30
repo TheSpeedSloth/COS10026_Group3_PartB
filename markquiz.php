@@ -50,9 +50,11 @@ if(isset($_POST["submit"])) {
             echo "<pre>";
             print_r($attempt);
             echo "</pre>";
+            // Add rest of code here
         } else {
             echo $error;
         }
+        mysqli_close($conn);
     } else {
         echo "Database could not be accessed.";
     }
