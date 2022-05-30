@@ -7,22 +7,23 @@
     <title>Attempt Table Manager</title>
     <link rel="stylesheet" href="styles/style.css">
     <?php
-        $conn = @mysqli_connect($host, $user, $pwd, $sql_db);
+        $conn = @mysqli_connect($host, $user, $pwd, $sql_db); // Connect to database
         if(!$conn) {
             echo "<p>Database connection failure</p>";
         } else {
-            if(isset($_POST['submit'])) {
+            // Work out which query to do
+            if(isset($_POST['search'])) { // Search for student
                 $id = htmlspecialchars($_POST['id']);
                 $first_name = htmlspecialchars($_POST['first_name']);
                 $last_name = htmlspecialchars($_POST['last_name']);
                 $query = "SELECT $sql_id, $sql_first_name, $sql_last_name, $sql_attempt_no, $sql_score FROM attempts WHERE $sql_id LIKE %$id% AND $sql_first_name LIKE %$first_name% AND $sql_last_name LIKE %$last_name%;";
-            } else if(isset($_POST['perfect'])) {
+            } else if(isset($_POST['perfect'])) { // Find perfect scores
                 $query = "SELECT $sql_id, $sql_first_name, $sql_last_name, $sql_attempt_no, $sql_score FROM attempts WHERE $sql_attempt_no = 1 AND $sql_score = 13;";
-            } else if(isset($_POST['fail'])) {
+            } else if(isset($_POST['fail'])) { // Find failed students
                 $query = "SELECT $sql_id, $sql_first_name, $sql_last_name, $sql_attempt_no, $sql_score FROM attempts WHERE $sql_attempt_no = 2 AND $sql_score < 7;";
-            } else if($_GET['edit']) {
+            } else if($_GET['edit']) { // Refresh page for editing
                 $query = $_GET['query'];
-            } else if($_GET['delete']) {
+            } else if($_GET['delete']) { // Delete student's attempts
                 $id = $_GET['id'];
                 $query = "DELETE FROM attempts WHERE $sql_id = $id;";
                 $conn = @mysqli_connect($host, $user, $pwd, $sql_db);
@@ -39,7 +40,7 @@
                     mysqli_close($conn);
                 }
                 $query = $_GET['query'];
-            } else if($_POST['edit']) {
+            } else if($_POST['edit']) { // Update score of attempt
                 $score = $_POST['score'];
                 $id = $_GET['id'];
                 $query = "UPDATE attempts SET $sql_score = $score WHERE $sql_id = $id;";
@@ -77,7 +78,7 @@
         <button type="submit" name="fail">List failed students</button>
     </form>
     <?php
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($conn, $query); // Run query 
         if(!$result) {
             echo "<p>Something is wrong with ", $query, "</p>";
         } else {
@@ -91,7 +92,7 @@
                 ."<th scope=\"col\">Edit</th>\n"
                 ."<th scope=\"col\">Delete</th>\n"
                 ."</tr>\n";
-            if(!isset($_GET['edit'])) {
+            if(!isset($_GET['edit'])) { // Regular display
                 while($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>\n"
                         ."<td>", $row[$sql_id], "</td>\n"
@@ -103,7 +104,7 @@
                         ."<td><a href=\"manage.php?delete=true&id=", $row[$sql_id], "&query=", $query, "\"Delete</a></td>\n"
                         ."</tr>\n";
                 }
-            } else {
+            } else { // If page is in edit mode then find row to edit and create an input to enter new score
                 while($row = mysqli_fetch_assoc($result)) {
                     if($row[$sql_id] == $_GET['id']) {
                         echo "<tr>\n"
