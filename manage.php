@@ -66,7 +66,7 @@
     <h1>Student search</h1>
     <form method="post">
         <label for="id">Student ID</label>
-        <input type="number" id="id" name="id"><br>
+        <input type="text" id="id" name="id"><br>
         <label for="first_name">First name</label>
         <input type="text" id="first_name" name="first_name"><br>
         <label for="last_name">Last name</label>
