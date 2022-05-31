@@ -16,7 +16,7 @@
                 $id = htmlspecialchars($_POST['id']);
                 $first_name = htmlspecialchars($_POST['first_name']);
                 $last_name = htmlspecialchars($_POST['last_name']);
-                $query = "SELECT student_id, given_name, family_name, attempt_no, score FROM attempts WHERE student_id LIKE '%$id%' AND given_name LIKE '%$first_name%' AND family_name LIKE '%$last_name%';";
+                $query = "SELECT student_id, given_name, family_name, attempt_no, score FROM attempts WHERE student_id = $id AND given_name LIKE '%$first_name%' AND family_name LIKE '%$last_name%';";
             } else if(isset($_POST['perfect'])) { // Find perfect scores
                 $query = "SELECT student_id, given_name, family_name, attempt_no, score FROM attempts WHERE attempt_no = 1 AND score = 13;";
             } else if(isset($_POST['fail'])) { // Find failed students
