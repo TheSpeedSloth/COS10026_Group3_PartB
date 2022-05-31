@@ -112,7 +112,6 @@ footer {
   clear: both;
 }
 input[type="text"],
-input[type="number"],
 input[type="submit"],
 input[type="reset"],
 select {
@@ -190,7 +189,6 @@ legend {
     border-bottom: solid 0.6vw #77f2a1;
   }
   input[type="text"],
-  input[type="number"],
   input[type="submit"],
   input[type="reset"],
   select {
