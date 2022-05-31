@@ -16,16 +16,16 @@
                 $id = htmlspecialchars($_POST['id']);
                 $first_name = htmlspecialchars($_POST['first_name']);
                 $last_name = htmlspecialchars($_POST['last_name']);
-                $query = "SELECT $sql_id, $sql_first_name, $sql_last_name, $sql_attempt_no, $sql_score FROM attempts WHERE $sql_id LIKE %$id% AND $sql_first_name LIKE %$first_name% AND $sql_last_name LIKE %$last_name%;";
+                $query = "SELECT student_id, given_name, family_name, attempt_no, score FROM attempts WHERE student_id LIKE '%$id%' AND given_name LIKE '%$first_name%' AND family_name LIKE '%$last_name%';";
             } else if(isset($_POST['perfect'])) { // Find perfect scores
-                $query = "SELECT $sql_id, $sql_first_name, $sql_last_name, $sql_attempt_no, $sql_score FROM attempts WHERE $sql_attempt_no = 1 AND $sql_score = 13;";
+                $query = "SELECT student_id, given_name, family_name, attempt_no, score FROM attempts WHERE attempt_no = 1 AND score = 13;";
             } else if(isset($_POST['fail'])) { // Find failed students
-                $query = "SELECT $sql_id, $sql_first_name, $sql_last_name, $sql_attempt_no, $sql_score FROM attempts WHERE $sql_attempt_no = 2 AND $sql_score < 7;";
-            } else if($_GET['edit']) { // Refresh page for editing
+                $query = "SELECT student_id, given_name, family_name, attempt_no, score FROM attempts WHERE attempt_no = 2 AND score < 7;";
+            } else if(isset($_GET['edit'])) { // Refresh page for editing
                 $query = $_GET['query'];
-            } else if($_GET['delete']) { // Delete student's attempts
+            } else if(isset($_GET['delete'])) { // Delete student's attempts
                 $id = $_GET['id'];
-                $query = "DELETE FROM attempts WHERE $sql_id = $id;";
+                $query = "DELETE FROM attempts WHERE student_id = $id;";
                 $conn = @mysqli_connect($host, $user, $pwd, $sql_db);
                 if(!$conn) {
                     echo "<p>Database connection failure</p>";
@@ -35,15 +35,13 @@
                         echo "<p>Something is wrong with ", $query, "</p>";
                     } else {
                         echo "<p>Table has been updated</p>";
-                        mysqli_free_result($result);
                     }
-                    mysqli_close($conn);
                 }
                 $query = $_GET['query'];
-            } else if($_POST['edit']) { // Update score of attempt
+            } else if(isset($_POST['edit'])) { // Update score of attempt
                 $score = $_POST['score'];
                 $id = $_GET['id'];
-                $query = "UPDATE attempts SET $sql_score = $score WHERE $sql_id = $id;";
+                $query = "UPDATE attempts SET score = $score WHERE student_id = $id;";
                 $conn = @mysqli_connect($host, $user, $pwd, $sql_db);
                 if(!$conn) {
                     echo "<p>Database connection failure</p>";
@@ -53,13 +51,11 @@
                         echo "<p>Something is wrong with ", $query, "</p>";
                     } else {
                         echo "<p>Table has been updated</p>";
-                        mysqli_free_result($result);
                     }
-                    mysqli_close($conn);
                 }
                 $query = $_GET['query'];
             } else {
-                $query = "SELECT $sql_id, $sql_first_name, $sql_last_name, $sql_attempt_no, $sql_score FROM attempts;";
+                $query = "SELECT student_id, given_name, family_name, attempt_no, score FROM attempts;";
             }
         }
     ?>
@@ -82,7 +78,7 @@
         if(!$result) {
             echo "<p>Something is wrong with ", $query, "</p>";
         } else {
-            echo "<table border=\"1\">\n"
+            echo "<table>\n"
                 ."<tr>\n"
                 ."<th scope=\"col\">Student ID</th>\n"
                 ."<th scope=\"col\">First Name</th>\n"
@@ -95,38 +91,38 @@
             if(!isset($_GET['edit'])) { // Regular display
                 while($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>\n"
-                        ."<td>", $row[$sql_id], "</td>\n"
-                        ."<td>", $row[$sql_first_name], "</td>\n"
-                        ."<td>", $row[$sql_last_name], "</td>\n"
-                        ."<td>", $row[$sql_attempt_no], "</td>\n"
-                        ."<td>", $row[$sql_score], "</td>\n"
-                        ."<td><a href=\"manage.php?edit=true&id=", $row[$sql_id], "&query=", $query, "\"Edit</a></td>\n"
-                        ."<td><a href=\"manage.php?delete=true&id=", $row[$sql_id], "&query=", $query, "\"Delete</a></td>\n"
+                        ."<td>", $row['student_id'], "</td>\n"
+                        ."<td>", $row['given_name'], "</td>\n"
+                        ."<td>", $row['family_name'], "</td>\n"
+                        ."<td>", $row['attempt_no'], "</td>\n"
+                        ."<td>", $row['score'], "</td>\n"
+                        ."<td><a href=\"manage.php?edit=true&id=", $row['student_id'], "&query=", $query, "\">Edit</a></td>\n"
+                        ."<td><a href=\"manage.php?delete=true&id=", $row['student_id'], "&query=", $query, "\">Delete</a></td>\n"
                         ."</tr>\n";
                 }
             } else { // If page is in edit mode then find row to edit and create an input to enter new score
                 while($row = mysqli_fetch_assoc($result)) {
-                    if($row[$sql_id] == $_GET['id']) {
+                    if($row['student_id'] == $_GET['id']) {
                         echo "<tr>\n"
-                        ."<td>", $row[$sql_id], "</td>\n"
-                        ."<td>", $row[$sql_first_name], "</td>\n"
-                        ."<td>", $row[$sql_last_name], "</td>\n"
-                        ."<td>", $row[$sql_attempt_no], "</td>\n"
+                        ."<td>", $row['student_id'], "</td>\n"
+                        ."<td>", $row['given_name'], "</td>\n"
+                        ."<td>", $row['family_name'], "</td>\n"
+                        ."<td>", $row['attempt_no'], "</td>\n"
                         ."<td>"
-                        ."<form method\"post\" action=\"manage.php?id=", $row[$sql_id], "&query=", $query, "\"><input size=\"2\" type=\"number\" id=\"score\" name=\"score\" value=\"", $row[$sql_score], "\" required><button type=\"submit\" name=\"edit\" style=\"display:none\">Edit</button></form>"
+                        ."<form method=\"post\" action=\"manage.php?id=", $row['student_id'], "&query=", $query, "\"><input size=\"2\" type=\"number\" id=\"score\" name=\"score\" value=\"", $row['score'], "\" required><button type=\"submit\" name=\"edit\" style=\"display:none\">Edit</button></form>"
                         ."</td>\n"
-                        ."<td><a href=\"manage.php?edit=true&id=", $row[$sql_id], "&query=", $query, "\"Edit</a></td>\n"
-                        ."<td><a href=\"manage.php?delete=true&id=", $row[$sql_id], "&query=", $query, "\"Delete</a></td>\n"
+                        ."<td><a href=\"manage.php?edit=true&id=", $row['student_id'], "&query=", $query, "\">Edit</a></td>\n"
+                        ."<td><a href=\"manage.php?delete=true&id=", $row['student_id'], "&query=", $query, "\">Delete</a></td>\n"
                         ."</tr>\n";
                     } else {
                         echo "<tr>\n"
-                        ."<td>", $row[$sql_id], "</td>\n"
-                        ."<td>", $row[$sql_first_name], "</td>\n"
-                        ."<td>", $row[$sql_last_name], "</td>\n"
-                        ."<td>", $row[$sql_attempt_no], "</td>\n"
-                        ."<td>", $row[$sql_score], "</td>\n"
-                        ."<td><a href=\"manage.php?edit=true&id=", $row[$sql_id], "&query=", $query, "\"Edit</a></td>\n"
-                        ."<td><a href=\"manage.php?delete=true&id=", $row[$sql_id], "&query=", $query, "\"Delete</a></td>\n"
+                        ."<td>", $row['student_id'], "</td>\n"
+                        ."<td>", $row['given_name'], "</td>\n"
+                        ."<td>", $row['family_name'], "</td>\n"
+                        ."<td>", $row['attempt_no'], "</td>\n"
+                        ."<td>", $row['score'], "</td>\n"
+                        ."<td><a href=\"manage.php?edit=true&id=", $row['student_id'], "&query=", $query, "\">Edit</a></td>\n"
+                        ."<td><a href=\"manage.php?delete=true&id=", $row['student_id'], "&query=", $query, "\">Delete</a></td>\n"
                         ."</tr>\n";
                     }
                 }
