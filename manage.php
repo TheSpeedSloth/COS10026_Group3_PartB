@@ -61,6 +61,8 @@
     ?>
 </head>
 <body>
+    <?php $active = "manage";?>
+    <?php include 'header.inc';?>
     <h1>Student search</h1>
     <form method="post">
         <label for="id">Student ID</label>
@@ -69,9 +71,9 @@
         <input type="text" id="first_name" name="first_name"><br>
         <label for="last_name">Last name</label>
         <input type="text" id="last_name" name="last_name"><br>
-        <button type="submit" name="search">Search</button><br>
-        <button type="submit" name="perfect">List perfect scores</button><br>
-        <button type="submit" name="fail">List failed students</button>
+        <input type="submit" name="search" value="Search" /><br>
+        <input type="submit" name="perfect" value="List perfect scores" /><br>
+        <input type="submit" name="fail" value="List failed students" /><br>
     </form>
     <?php
         $result = mysqli_query($conn, $query); // Run query 
@@ -132,5 +134,6 @@
         }
         mysqli_close($conn);
     ?>
+    <?php include 'footer.inc';?>
 </body>
 </html>
