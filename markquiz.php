@@ -17,7 +17,18 @@ function save($attempt, $attempt_no, $score, $conn) {
         }
     }
 }
-
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Result</title>
+    <link rel="stylesheet" href="styles/style.css" />
+</head>
+<body>
+<?php $active = ""; include 'header.inc';  ?>
+<?php
 if(isset($_POST["submit"])) {
     // Connect to MySQL database
     $conn = @mysqli_connect($host, $user, $pwd, $sql_db);
@@ -81,7 +92,7 @@ if(isset($_POST["submit"])) {
                     $attempt_no = 2;
                     save($attempt, $attempt_no, $score, $conn);
                 } else {
-                    echo "You have no more attempts remaining.";
+                    echo "<p>You have no more attempts remaining.</p>";
                 }
             }
         } else {
@@ -96,3 +107,6 @@ if(isset($_POST["submit"])) {
 }
 
 ?>
+<?php include 'footer.inc';?>
+</body>
+</html>
