@@ -16,11 +16,11 @@
                 $id = htmlspecialchars($_POST['id']);
                 $first_name = htmlspecialchars($_POST['first_name']);
                 $last_name = htmlspecialchars($_POST['last_name']);
-                $query = "SELECT student_id, given_name, family_name, attempt_no, score FROM attempts WHERE student_id = $id AND given_name LIKE '%$first_name%' AND family_name LIKE '%$last_name%';";
+                $query = "SELECT attempt_index, student_id, given_name, family_name, attempt_no, score FROM attempts WHERE student_id = $id AND given_name LIKE '%$first_name%' AND family_name LIKE '%$last_name%';";
             } else if(isset($_POST['perfect'])) { // Find perfect scores
-                $query = "SELECT student_id, given_name, family_name, attempt_no, score FROM attempts WHERE attempt_no = 1 AND score = 13;";
+                $query = "SELECT attempt_index, student_id, given_name, family_name, attempt_no, score FROM attempts WHERE attempt_no = 1 AND score = 13;";
             } else if(isset($_POST['fail'])) { // Find failed students
-                $query = "SELECT student_id, given_name, family_name, attempt_no, score FROM attempts WHERE attempt_no = 2 AND score < 7;";
+                $query = "SELECT attempt_index, student_id, given_name, family_name, attempt_no, score FROM attempts WHERE attempt_no = 2 AND score < 7;";
             } else if(isset($_GET['edit'])) { // Refresh page for editing
                 $query = $_GET['query'];
             } else if(isset($_GET['delete'])) { // Delete student's attempts
@@ -40,8 +40,8 @@
                 $query = $_GET['query'];
             } else if(isset($_POST['edit'])) { // Update score of attempt
                 $score = $_POST['score'];
-                $id = $_GET['id'];
-                $query = "UPDATE attempts SET score = $score WHERE student_id = $id;";
+                $index = $_GET['index'];
+                $query = "UPDATE attempts SET score = $score WHERE attempt_index = $index;";
                 $conn = @mysqli_connect($host, $user, $pwd, $sql_db);
                 if(!$conn) {
                     echo "<p>Database connection failure</p>";
@@ -55,7 +55,7 @@
                 }
                 $query = $_GET['query'];
             } else {
-                $query = "SELECT student_id, given_name, family_name, attempt_no, score FROM attempts;";
+                $query = "SELECT attempt_index, student_id, given_name, family_name, attempt_no, score FROM attempts;";
             }
         }
     ?>
@@ -98,7 +98,7 @@
                         ."<td>", $row['family_name'], "</td>\n"
                         ."<td>", $row['attempt_no'], "</td>\n"
                         ."<td>", $row['score'], "</td>\n"
-                        ."<td><a href=\"manage.php?edit=true&id=", $row['student_id'], "&query=", $query, "\">Edit</a></td>\n"
+                        ."<td><a href=\"manage.php?edit=true&index=", $row['attempt_index'], "&query=", $query, "\">Edit</a></td>\n"
                         ."<td><a href=\"manage.php?delete=true&id=", $row['student_id'], "&query=", $query, "\">Delete</a></td>\n"
                         ."</tr>\n";
                 }
@@ -111,9 +111,9 @@
                         ."<td>", $row['family_name'], "</td>\n"
                         ."<td>", $row['attempt_no'], "</td>\n"
                         ."<td>"
-                        ."<form method=\"post\" action=\"manage.php?id=", $row['student_id'], "&query=", $query, "\"><input size=\"2\" type=\"number\" id=\"score\" name=\"score\" value=\"", $row['score'], "\" required><button type=\"submit\" name=\"edit\" style=\"display:none\">Edit</button></form>"
+                        ."<form method=\"post\" action=\"manage.php?index=", $row['attempt_index'], "&query=", $query, "\"><input size=\"2\" type=\"number\" id=\"score\" name=\"score\" value=\"", $row['score'], "\" required><button type=\"submit\" name=\"edit\" style=\"display:none\">Edit</button></form>"
                         ."</td>\n"
-                        ."<td><a href=\"manage.php?edit=true&id=", $row['student_id'], "&query=", $query, "\">Edit</a></td>\n"
+                        ."<td><a href=\"manage.php?edit=true&index=", $row['attempt_index'], "&query=", $query, "\">Edit</a></td>\n"
                         ."<td><a href=\"manage.php?delete=true&id=", $row['student_id'], "&query=", $query, "\">Delete</a></td>\n"
                         ."</tr>\n";
                     } else {
@@ -123,7 +123,7 @@
                         ."<td>", $row['family_name'], "</td>\n"
                         ."<td>", $row['attempt_no'], "</td>\n"
                         ."<td>", $row['score'], "</td>\n"
-                        ."<td><a href=\"manage.php?edit=true&id=", $row['student_id'], "&query=", $query, "\">Edit</a></td>\n"
+                        ."<td><a href=\"manage.php?edit=true&index=", $row['attempt_index'], "&query=", $query, "\">Edit</a></td>\n"
                         ."<td><a href=\"manage.php?delete=true&id=", $row['student_id'], "&query=", $query, "\">Delete</a></td>\n"
                         ."</tr>\n";
                     }
