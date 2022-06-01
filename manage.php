@@ -1,4 +1,14 @@
-<?php require_once("settings.php"); ?>
+<?php
+    require_once("settings.php");
+
+    session_start();
+    if(empty($_SESSION['username'])) {
+        $_SESSION['username'] = "";
+        header("Location: login.php");
+    }
+
+    $active = "manage";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,7 +71,6 @@
     ?>
 </head>
 <body>
-    <?php $active = "manage";?>
     <?php include 'header.inc';?>
     <h1>Student search</h1>
     <form method="post">
