@@ -1,4 +1,14 @@
-<?php require_once("settings.php"); ?>
+<?php
+    require_once("settings.php");
+
+    session_start();
+    if(empty($_SESSION['username'])) {
+        $_SESSION['username'] = "";
+        header("Location: login.php");
+    }
+
+    $active = "manage";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,8 +43,6 @@
                     $result = mysqli_query($conn, $query);
                     if(!$result) {
                         echo "<p>Something is wrong with ", $query, "</p>";
-                    } else {
-                        echo "<p>Table has been updated</p>";
                     }
                 }
                 $query = $_GET['query'];
@@ -49,8 +57,6 @@
                     $result = mysqli_query($conn, $query);
                     if(!$result) {
                         echo "<p>Something is wrong with ", $query, "</p>";
-                    } else {
-                        echo "<p>Table has been updated</p>";
                     }
                 }
                 $query = $_GET['query'];
@@ -61,9 +67,9 @@
     ?>
 </head>
 <body>
-    <?php $active = "manage";?>
     <?php include 'header.inc';?>
-    <h1>Student search</h1>
+    <h1>Attempt table manager</h1>
+    <h2>Student search</h2>
     <form method="post">
         <label for="id">Student ID</label>
         <input type="text" id="id" name="id"><br>
@@ -72,9 +78,10 @@
         <label for="last_name">Last name</label>
         <input type="text" id="last_name" name="last_name"><br>
         <input type="submit" name="search" value="Search" /><br>
+    <h2>Quick options</h2>
         <input type="submit" name="perfect" value="List perfect scores" /><br>
         <input type="submit" name="fail" value="List failed students" /><br>
-    </form>
+    </form><br>
     <?php
         $result = mysqli_query($conn, $query); // Run query 
         if(!$result) {
@@ -104,14 +111,14 @@
                 }
             } else { // If page is in edit mode then find row to edit and create an input to enter new score
                 while($row = mysqli_fetch_assoc($result)) {
-                    if($row['student_id'] == $_GET['id']) {
+                    if($row['attempt_index'] == $_GET['index']) {
                         echo "<tr>\n"
                         ."<td>", $row['student_id'], "</td>\n"
                         ."<td>", $row['given_name'], "</td>\n"
                         ."<td>", $row['family_name'], "</td>\n"
                         ."<td>", $row['attempt_no'], "</td>\n"
                         ."<td>"
-                        ."<form method=\"post\" action=\"manage.php?index=", $row['attempt_index'], "&query=", $query, "\"><input size=\"2\" type=\"number\" id=\"score\" name=\"score\" value=\"", $row['score'], "\" required><button type=\"submit\" name=\"edit\" style=\"display:none\">Edit</button></form>"
+                        ."<form method=\"post\" action=\"manage.php?index=", $row['attempt_index'], "&query=", $query, "\"><input size=\"1\" type=\"text\" id=\"score\" name=\"score\" value=\"", $row['score'], "\" required><button type=\"submit\" name=\"edit\" style=\"display:none\">Edit</button></form>"
                         ."</td>\n"
                         ."<td><a href=\"manage.php?edit=true&index=", $row['attempt_index'], "&query=", $query, "\">Edit</a></td>\n"
                         ."<td><a href=\"manage.php?delete=true&id=", $row['student_id'], "&query=", $query, "\">Delete</a></td>\n"
